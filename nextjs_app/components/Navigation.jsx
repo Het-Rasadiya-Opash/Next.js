@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Navigation = () => {
   return (
-    <header className="flex items-center gap-4 p-4">
+    <header className="flex items-center gap-4 p-4 ">
       <div className="font-bold">Logo</div>
       <nav>
         <ul className="flex gap-4 list-none">
