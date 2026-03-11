@@ -46,6 +46,7 @@ const DaatFetchClient = () => {
 
       setUserData(userData);
     };
+
     fetchData();
   }, []);
 
