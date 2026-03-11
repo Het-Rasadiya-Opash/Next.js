@@ -1,5 +1,7 @@
 import connectDB from "@/config/db";
 
+export const revalidate = 30;
+
 const StaticPage = async () => {
   console.log(`Static Page`);
   await connectDB();
