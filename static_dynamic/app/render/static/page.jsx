@@ -17,16 +17,18 @@ const StaticPage = async () => {
     });
 
     const User = mongoose.models.User || mongoose.model("User", UserSchema);
-    users = await User.find({}).lean();
+    const fetchedUsers = await User.find({}).lean();
+    users = Array.isArray(fetchedUsers) ? fetchedUsers : [];
   } catch (error) {
     console.error("Error fetching data:", error);
+    users = [];
   }
 
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-6">Static Page - Database Data</h1>
 
-      {users.length > 0 ? (
+      {users && users.length > 0 ? (
         <div className="space-y-4">
           <h2 className="text-xl font-semibold">Users from Database:</h2>
           {users.map((user) => (
