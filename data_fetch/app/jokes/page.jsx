@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Loading from "../datafetch/Load";
 
 const RandomJokes = () => {
   const [joke, setJoke] = useState(null);
@@ -18,7 +19,7 @@ const RandomJokes = () => {
     fetchRandomJoke();
   }, []);
 
-  if (!joke) return <div className="text-center mt-10">Loading...</div>;
+  if (!joke) return <Loading/>
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-50">
