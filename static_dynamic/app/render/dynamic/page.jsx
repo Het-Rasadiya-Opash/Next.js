@@ -1,4 +1,5 @@
 import connectDB from "@/config/db";
+import { notFound } from "next/navigation";
 import { cache } from "react";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +19,7 @@ export default DynamicPage;
 
 const UserList = async () => {
   const users = await getAllUsers();
+  if (!users) return notFound();
   return (
     <div>
       {users.length > 0 ? (
@@ -50,7 +52,7 @@ const UserList = async () => {
   );
 };
 
-const getAllUsers = cache(async() => {
+const getAllUsers = cache(async () => {
   await connectDB();
 
   let users = [];
@@ -66,7 +68,7 @@ const getAllUsers = cache(async() => {
     const User = mongoose.models.User || mongoose.model("User", UserSchema);
     users = await User.find({}).lean();
     console.log("Dynamic Page user fetch");
-    return users;
+    // return users;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
