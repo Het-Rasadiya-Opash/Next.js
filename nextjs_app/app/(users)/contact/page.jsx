@@ -3,8 +3,10 @@ import { useFormStatus } from "react-dom";
 import { useActionState, useState, useTransition } from "react";
 import { Loader } from "lucide-react";
 import { contactAction } from "./contact.action";
+import { useRouter } from "next/navigation";
 
 const Contact = () => {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [contactFormResponse, setContactFormResponse] = useState(null);
   const handleContactSubmit = (formData) => {
@@ -13,6 +15,7 @@ const Contact = () => {
       const res = await contactAction(fullName, email, message);
       setContactFormResponse(res);
     });
+    router.push("/");
   };
   return (
     <>

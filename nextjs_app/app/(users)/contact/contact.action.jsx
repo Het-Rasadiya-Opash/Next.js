@@ -9,8 +9,8 @@ export const contactAction = async (fullName, email, message) => {
   try {
     await connectDB();
     await Contact.create({ fullName, email, message });
-    // return { success: true, message: "Contact saved successfully" };
-    redirect("/");
+    return { success: true, message: "Contact saved successfully" };
+    // redirect("/");
   } catch (error) {
     if (error.message === "NEXT_REDIRECT") throw error;
     return { success: false, message: "Failed to save contact" };
