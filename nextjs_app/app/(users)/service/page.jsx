@@ -2,7 +2,9 @@
 import Image from "next/image";
 import img1 from "@/public/1.webp";
 import img2 from "@/public/2.png";
-import { motion } from "framer-motion"; // Note: Changed to 'framer-motion' for standard naming
+import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 const teamMembers = [
   {
@@ -59,53 +61,117 @@ const itemVariants = {
   visible: { y: 0, opacity: 1 },
 };
 
+// const Service = () => {
+//   return (
+//     <section className="bg-black py-16 px-4">
+//       <div className="max-w-6xl mx-auto">
+//         <h2 className="text-white text-center text-3xl font-bold mb-12">
+//           Our Team
+//         </h2>
+
+//         <motion.div
+//           variants={containerVariants}
+//           initial="hidden"
+//           whileInView="visible" // Triggers when user scrolls to section
+//           viewport={{ once: true }}
+//           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+//         >
+//           {teamMembers.map((member, index) => (
+//             <motion.div
+//               key={index}
+//               variants={itemVariants}
+//               whileHover={{ y: -10, scale: 1.02 }} // Gentle lift effect
+//               whileTap={{ scale: 0.95 }}
+//               className="bg-white rounded-xl p-8 flex flex-col items-center text-center shadow-lg cursor-pointer"
+//             >
+//               <motion.div
+//                 whileHover={{ rotate: 15 }} // Subtle tilt instead of 360 for cleaner UI
+//                 className={`relative w-24 h-24 rounded-full flex items-center justify-center mb-6 overflow-hidden shadow-inner ${
+//                   member.type === "initials" ? member.color : "bg-gray-100"
+//                 }`}
+//               >
+//                 {member.type === "initials" ? (
+//                   <span className="text-2xl font-bold">{member.initials}</span>
+//                 ) : (
+//                   <Image
+//                     src={member.content}
+//                     alt={member.name}
+//                     fill
+//                     className="object-cover"
+//                   />
+//                 )}
+//               </motion.div>
+
+//               <h3 className="text-gray-900 font-bold text-xl">{member.name}</h3>
+//               <p className="text-gray-600 font-medium mt-1">{member.role}</p>
+//               <p className="text-gray-400 text-sm mt-1">{member.skill}</p>
+//             </motion.div>
+//           ))}
+//         </motion.div>
+//       </div>
+//     </section>
+//   );
+// };
+
+
 const Service = () => {
+  const cardRef = useRef();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const element = cardRef.current;
+
+      gsap.set(element, {
+        opacity: 0,
+        y: 50,
+        scale: 1,
+      });
+      gsap.to(element, {
+        duration: 0.8,
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        ease: "power3.out",
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
   return (
-    <section className="bg-black py-16 px-4">
+    <section ref={cardRef} className="bg-black py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-white text-center text-3xl font-bold mb-12">
           Our Team
         </h2>
-
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible" // Triggers when user scrolls to section
-          viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {teamMembers.map((member, index) => (
-            <motion.div
+            <div
+              
               key={index}
-              variants={itemVariants}
-              whileHover={{ y: -10, scale: 1.02 }} // Gentle lift effect
-              whileTap={{ scale: 0.95 }}
-              className="bg-white rounded-xl p-8 flex flex-col items-center text-center shadow-lg cursor-pointer"
+              className="bg-white rounded-xl p-8 flex flex-col items-center text-center shadow-lg"
             >
-              <motion.div
-                whileHover={{ rotate: 15 }} // Subtle tilt instead of 360 for cleaner UI
-                className={`relative w-24 h-24 rounded-full flex items-center justify-center mb-6 overflow-hidden shadow-inner ${
-                  member.type === "initials" ? member.color : "bg-gray-100"
+              <div
+                className={`relative w-24 h-24 rounded-full flex items-center justify-center mb-6 overflow-hidden ${
+                  member.type === "initials" ? member.color : ""
                 }`}
               >
                 {member.type === "initials" ? (
                   <span className="text-2xl font-bold">{member.initials}</span>
                 ) : (
                   <Image
-                    src={member.content}
+                    src={member.content || ""}
                     alt={member.name}
                     fill
                     className="object-cover"
                   />
                 )}
-              </motion.div>
-
+              </div>
               <h3 className="text-gray-900 font-bold text-xl">{member.name}</h3>
               <p className="text-gray-600 font-medium mt-1">{member.role}</p>
               <p className="text-gray-400 text-sm mt-1">{member.skill}</p>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
