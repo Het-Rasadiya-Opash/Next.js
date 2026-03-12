@@ -1,13 +1,19 @@
 "use client";
 import { useFormStatus } from "react-dom";
-import { contactAction } from "./contact.action";
-import { useState, useTransition } from "react";
+import { useActionState, useState, useTransition } from "react";
 import { Loader } from "lucide-react";
+import { contactAction } from "./contact.action";
 
 const Contact = () => {
-   const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const [contactFormResponse, setContactFormResponse] = useState(null);
-
+  const handleContactSubmit = (formData) => {
+    const { fullName, email, message } = Object.fromEntries(formData);
+    startTransition(async () => {
+      const res = await contactAction(fullName, email, message);
+      setContactFormResponse(res);
+    });
+  };
   return (
     <>
       <div className="min-h-screen bg-[rgb(14,14,14)] text-white">
@@ -18,7 +24,7 @@ const Contact = () => {
             </h1>
 
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-800">
-              <form className="space-y-6" action={contactAction}>
+              <form className="space-y-6" action={handleContactSubmit}>
                 {/* Full Name Field */}
 
                 <div>
