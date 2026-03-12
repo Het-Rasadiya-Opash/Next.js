@@ -19,6 +19,7 @@ export default DynamicPage;
 
 const UserList = async () => {
   const users = await getAllUsers();
+  console.log(users)
   if (!users) return notFound();
   return (
     <div>
@@ -68,7 +69,7 @@ const getAllUsers = cache(async () => {
     const User = mongoose.models.User || mongoose.model("User", UserSchema);
     users = await User.find({}).lean();
     console.log("Dynamic Page user fetch");
-    // return users;
+    return users;
   } catch (error) {
     console.error("Error fetching data:", error);
   }

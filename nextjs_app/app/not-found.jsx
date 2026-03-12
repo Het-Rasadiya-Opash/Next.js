@@ -1,9 +1,7 @@
-"use client";
+import Link from "next/link";
 import React from "react";
-import { useRouter } from "next/navigation";
 
 const NotFound = () => {
-  const router = useRouter();
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#111321] text-white p-4">
       <h1 className="text-8xl font-bold bg-linear-to-r from-[#6366f1] to-[#a855f7] bg-clip-text text-transparent">
@@ -17,8 +15,8 @@ const NotFound = () => {
         The page you're looking for doesn't exist or has been moved to another
         location.
       </p>
-      <button
-        onClick={() => router.back()}
+
+      <button 
         className="px-6 py-3 bg-linear-to-r from-[#6366f1] to-[#a855f7] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-200"
       >
         Back to Home
