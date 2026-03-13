@@ -1,6 +1,6 @@
 
 const Page = () => {
-  throw new Error('About page error')
+  // throw new Error('About page error')
   return (
     <div>
       About
